@@ -1,13 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../styles/tile.scss';
+import CustomHint from './CustomHint';
 
-const Tile = ({ color_number }) => {
+const Tile = ({
+    color_number,
+    isTileClicked,
+    changeTileState,
+    title,
+    text,
+}) => {
+    const tileRef = useRef();
     const [divColor, setDivColor] = useState('#ededed');
     const [isClicked, setIsClicked] = useState(false);
     const [styles, setStyles] = useState({
         backgroundColor: divColor,
         border: 'none',
     });
+    const [hint, setHint] = useState([]);
 
     useEffect(() => {
         switch (color_number) {
@@ -40,20 +49,44 @@ const Tile = ({ color_number }) => {
     const handleClick = () => {
         if (isClicked) {
             setStyles({ ...styles, border: 'none' });
-        } else {
+            changeTileState();
+            setIsClicked(!isClicked);
+            setHint([]);
+        } else if (!isClicked && !isTileClicked) {
             setStyles({ ...styles, border: '1px solid rgba(0, 0, 0, 0.9)' });
+            setIsClicked(!isClicked);
+            changeTileState();
+            showHint();
         }
-        setIsClicked(!isClicked);
+    };
+
+    const showHint = () => {
+        console.log(title);
+        setHint(
+            <CustomHint
+                key={1}
+                left={tileRef.current.offsetLeft}
+                top={tileRef.current.offsetTop}
+                title={title}
+                text={text}
+            />
+        );
+        console.log(tileRef.current.offsetLeft);
     };
 
     return (
-        <div
-            className={'tile'}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            onClick={handleClick}
-            style={styles}
-        ></div>
+        <div>
+            {hint}
+            <div
+                ref={tileRef}
+                className={`tile ${isClicked ? 'clicked' : ''}`}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                onClick={handleClick}
+                style={styles}
+                data-hint-message={'hey'}
+            ></div>
+        </div>
     );
 };
 

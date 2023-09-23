@@ -1,0 +1,18 @@
+@import 'palette';
+
+.hint {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    z-index: 1;
+    padding: 6px 9px;
+    text-align: center;
+
+    background-color: black;
+    border-radius: 3px;
+    color: white;
+
+    span {
+        color: $secondary-font-color;
+    }
+}

@@ -3,7 +3,7 @@ import '../styles/tile.scss';
 import CustomHint from './CustomHint';
 
 const Tile = ({
-    color_number,
+    contr_number,
     isTileClicked,
     changeTileState,
     title,
@@ -19,23 +19,25 @@ const Tile = ({
     const [hint, setHint] = useState([]);
 
     useEffect(() => {
-        switch (color_number) {
-            case 1:
-                setDivColor('#acd5f2');
-                break;
-            case 2:
-                setDivColor('#7fa8c9');
-                break;
-            case 3:
-                setDivColor('#527ba0');
-                break;
-            case 4:
-                setDivColor('#254e77');
-                break;
-            default:
-                break;
+        if (contr_number == 0) {
+            setDivColor('#ededed');
+        } else if (contr_number < 9) {
+            setDivColor('#acd5f2');
+        } else if (contr_number <= 19) {
+            setDivColor('#7fa8c9');
+        } else if (contr_number <= 29) {
+            setDivColor('#527ba0');
+        } else if (contr_number > 29) {
+            setDivColor('#254e77');
         }
-    }, [color_number]);
+    }, [contr_number]);
+
+    useEffect(() => {
+        setStyles({
+            backgroundColor: divColor,
+            border: 'none',
+        });
+    }, [divColor]);
 
     const handleMouseEnter = () => {
         if (!isClicked)
@@ -61,7 +63,6 @@ const Tile = ({
     };
 
     const showHint = () => {
-        console.log(title);
         setHint(
             <CustomHint
                 key={1}
@@ -71,7 +72,6 @@ const Tile = ({
                 text={text}
             />
         );
-        console.log(tileRef.current.offsetLeft);
     };
 
     return (

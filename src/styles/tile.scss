@@ -1,0 +1,8 @@
+@import 'palette';
+
+.tile {
+    position: relative;
+    width: 17px;
+    height: 17px;
+    background-color: $frequency-color-1;
+}
